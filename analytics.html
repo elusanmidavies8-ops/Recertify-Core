@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Analytics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- PROTECTION -->
+<script>
+  const user = localStorage.getItem("user");
+  if (!user) {
+    window.location.href = "login.html";
+  }
+</script>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>RecertifyCore</h2>
+
+    <a href="dashboard.html">Single Mint</a>
+    <a href="#">Batch Mint</a>
+    <a class="active" href="analytics.html">Analytics</a>
+
+    <div class="upgrade">
+      <p>PRO MEMBER</p>
+      <button onclick="upgrade()">Upgrade to Pro</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <h1>Immutable Metrics</h1>
+    <p class="sub">Real-time certificate insights</p>
+
+    <!-- TOP CARDS -->
+    <div class="cards">
+
+      <div class="card big">
+        <h3>Total Certificates Minted</h3>
+        <h1>124,802</h1>
+        <p class="green">+12.4%</p>
+      </div>
+
+      <div class="card small">
+        <h3>Network Speed</h3>
+        <h1>0.8s</h1>
+        <p>Avg confirmation</p>
+      </div>
+
+    </div>
+
+    <!-- ACTIVITY GRID -->
+    <div class="activity">
+      <h3>Minting Activity</h3>
+
+      <div class="grid">
+        <div></div><div></div><div class="active"></div><div></div><div></div>
+        <div class="active"></div><div></div><div></div><div></div><div class="active"></div>
+        <div></div><div></div><div class="active"></div><div></div><div></div>
+      </div>
+    </div>
+
+    <!-- BOTTOM CARDS -->
+    <div class="bottom">
+
+      <div class="card">
+        <h3>Top Organizations</h3>
+        <p>EduChain - 42k mints</p>
+        <p>StackTech - 31k mints</p>
+        <p>VeriRise - 28k mints</p>
+      </div>
+
+      <div class="card dark">
+        <h3>AdSense5 Mini</h3>
+        <p>45k views this week</p>
+      </div>
+
+      <div class="card">
+        <h3>Success Rate</h3>
+        <h1>99.98%</h1>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Recertify Core</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body onload=\"initDashboard()\">
+
+<!-- PROTECTION -->
+<script>
+  const user = localStorage.getItem("user");
+  if (!user) {
+    window.location.href = "login.html";
+  }
+</script>
+
+<!-- DASHBOARD HEADER -->
+<header class="dashboard-header">
+  <div class="header-brand">Recertify Core</div>
+  <nav class="dashboard-nav">
+    <button class="nav-item active" onclick="showSection('single-mint', event)">Single Mint</button>
+    <button class="nav-item" onclick="showSection('batch-mint', event)">Batch Mint</button>
+    <button class="nav-item" onclick="showSection('analytics', event)">Analytics</button>
+  </nav>
+  <div class="header-actions">
+    <span id="statusBadge" class="status-badge"></span>
+    <button class="btn-connect" onclick="connectWallet()">Connect Wallet</button>
+  </div>
+</header>
+
+<div class="dashboard-container">
+  <!-- SIDEBAR -->
+  <aside class="dashboard-sidebar">
+    <div class="sidebar-brand">Recertify</div>
+    <div class="sidebar-member" id="memberBadge">PRO MEMBER</div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-link active" onclick="showSection('single-mint', event)">+ Single Mint</a>
+      <a href="#" class="nav-link" onclick="showSection('batch-mint', event)">Batch Mint</a>
+      <a href="#" class="nav-link" onclick="showSection('analytics', event)">Analytics</a>
+    </nav>
+
+    <div class="sidebar-plan">
+      <div class="plan-label">ACTIVE PLAN</div>
+      <div class="plan-name" id="planDisplay">Pro Tier</div>
+      <div class="plan-subtitle" id="planSubtitle">Unlimited Batch Minting</div>
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="#" class="footer-link">Settings</a>
+      <a href="#" class="footer-link">Support</a>
+      <button onclick="logout()" class="btn-logout">Logout</button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="dashboard-main">
+    
+    <!-- SINGLE MINT SECTION -->
+    <section id="single-mint" class="dashboard-section active">
+      <div class="section-header">
+        <div class="section-label">CERTIFICATION PROTOCOL</div>
+        <h1>Single Mint</h1>
+        <p class="section-subtitle">Create an immutable digital asset for individual course completion. Secured on-chain with premium metadata.</p>
+      </div>
+
+      <div class="mint-layout">
+        <!-- LEFT: FORM -->
+        <div class="mint-form">
+          <div class="form-card">
+            <div class="form-group">
+              <label>Student Wallet Address</label>
+              <div class="input-group">
+                <input id="wallet" type="text" placeholder="0x..." />
+                <button class="btn-copy" onclick="copyAddress()">📋</button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Student Name</label>
+              <input id="name" type="text" placeholder="Alex Rivera" />
+            </div>
+
+            <div class="form-group">
+              <label>Course Name</label>
+              <div class="input-group">
+                <input id="course" type="text" placeholder="Advanced Blockchain Architecture" />
+                <button class="btn-check">✓</button>
+              </div>
+            </div>
+
+            <button class="btn-primary mint-btn" onclick="mint()">Mint Certification</button>
+
+            <div class="info-alert">
+              ✓ Your current tier allows 5 more basic mints this month.
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: PREVIEW -->
+        <div class="mint-preview">
+          <div class="preview-label">Live Preview</div>
+          <div class="certificate-preview">
+            <div class="cert-header">CERTIFICATE ID: #00821</div>
+            <div class="cert-brand">RECERTIFY</div>
+            <div class="cert-subtitle">IMMUTABLE CREDENTIAL</div>
+            <h2 class="cert-title">Certificate of Achievement</h2>
+            <div class="cert-divider"></div>
+            <p class="cert-presented">PRESENTED TO</p>
+            <p class="cert-name">Alex Rivera</p>
+            <p class="cert-description">For successfully completing the rigorous requirements of Advanced Blockchain Architecture</p>
+            <div class="cert-qr">QR</div>
+            <div class="cert-footer">
+              <p>SMART CONTRACT: 0x8127cf...</p>
+              <p>TOKEN STANDARD: ERC-721 Immutable</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BATCH MINT SECTION -->
+    <section id="batch-mint" class="dashboard-section">
+      <div class="batch-header">
+        <h1>Transform your assets <span class="purple">at scale.</span></h1>
+        <p>Effortlessly issue hundreds of digital certificates in a single transaction. Secure, immutable, and ethereal.</p>
+      </div>
+
+      <div class="batch-content">
+        <!-- LEFT: UPLOAD -->
+        <div class="batch-upload">
+          <h3>Upload Batch</h3>
+          <p class="upload-desc">Accepts .ZIP with metadata or .CSV files</p>
+          
+          <div class="upload-area" onclick="triggerFileUpload()">
+            <div class="upload-icon">📤</div>
+            <p class="upload-text">Drag and drop your batch here</p>
+            <p class="upload-subtext">Support for up to 5,000 certificates per single upload session</p>
+            <button class="btn-browse">Browse Folders</button>
+          </div>
+          <input id="batchFile" type="file" style="display: none;" onchange="handleBatchUpload(event)" />
+
+          <div class="safety-info">
+            ✓ PRO SAFETY: ANTI-DUPLICATE ENABLED <a href="#" class="config-link">Config</a>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">✨</div>
+            <h4>AI Metadata Enrichment</h4>
+            <p>Automatically generate descriptions and tags for your batch certificates.</p>
+            <a href="#" class="btn-link">Enable Feature</a>
+          </div>
+        </div>
+
+        <!-- RIGHT: STATS & ACTIVITY -->
+        <div class="batch-stats">
+          <div class="stat-card">
+            <div class="stat-label">NETWORK THROUGHPUT</div>
+            <div class="stat-number">1,204</div>
+            <div class="stat-desc">Mints in last 24h</div>
+            <div class="stat-growth">+12%</div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 75%"></div></div>
+          </div>
+
+          <!-- ACTIVITY FEED - FULL WIDTH -->
+          <div class="activity-section full-activity">
+            <div class="activity-header">
+              <h4>Activity</h4>
+              <a href="#" class="view-all">View All</a>
+            </div>
+            <div class="activity-list">
+              <div class="activity-item success">
+                <span class="activity-name">Graduation_2024.zip</span>
+                <span class="activity-status">✓</span>
+                <span class="activity-meta">450 UNITS • 2M AGO</span>
+              </div>
+              <div class="activity-item pending">
+                <span class="activity-name">Product_Cert_A.csv</span>
+                <span class="activity-status">⏳</span>
+                <span class="activity-meta">1.2K UNITS • PROCESSING</span>
+              </div>
+              <div class="activity-item archived">
+                <span class="activity-name">Legacy_Records.zip</span>
+                <span class="activity-status">◉</span>
+                <span class="activity-meta">89 UNITS • 1H AGO</span>
+              </div>
+              <div class="activity-item success">
+                <span class="activity-name">Summer_Course_2024.zip</span>
+                <span class="activity-status">✓</span>
+                <span class="activity-meta">320 UNITS • 4H AGO</span>
+              </div>
+              <div class="activity-item pending">
+                <span class="activity-name">Winter_Semester.csv</span>
+                <span class="activity-status">⏳</span>
+                <span class="activity-meta">890 UNITS • UPLOADING</span>
+              </div>
+              <div class="activity-item archived">
+                <span class="activity-name">Archive_2023.zip</span>
+                <span class="activity-status">◉</span>
+                <span class="activity-meta">1.5K UNITS • 2D AGO</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANALYTICS SECTION -->
+    <section id=\"analytics\" class=\"dashboard-section\">
+      <div class=\"analytics-header\">
+        <h1>Immutable Metrics</h1>
+        <p>Real-time certificate insights</p>
+      </div>
+
+      <div class=\"analytics-content\">
+        <!-- TOP METRICS -->
+        <div class=\"metrics-grid\">
+          <div class=\"metric-card large\">
+            <h3>Total Certificates Minted</h3>
+            <div class=\"metric-number\">124,802</div>
+            <div class=\"metric-growth\">+12.4%</div>
+          </div>
+
+          <div class=\"metric-card\">
+            <h3>Network Speed</h3>
+            <div class=\"metric-number\">0.8s</div>
+            <div class=\"metric-desc\">Avg confirmation</div>
+          </div>
+        </div>
+
+        <!-- ACTIVITY HEATMAP -->
+        <div class=\"activity-section\">
+          <h3>Minting Activity</h3>
+          <div class=\"activity-heatmap\">
+            <div class=\"heatmap-row\">
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell active\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell active\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell active\"></div>
+            </div>
+            <div class=\"heatmap-row\">
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell active\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell active\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell active\"></div>
+            </div>
+            <div class=\"heatmap-row\">
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell active\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell active\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell\"></div>
+              <div class=\"heatmap-cell active\"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM METRICS -->
+        <div class=\"bottom-metrics\">
+          <div class=\"metric-card\">
+            <h3>Top Organizations</h3>
+            <div class=\"org-list\">
+              <p>EduChain - 42k mints</p>
+              <p>StackTech - 31k mints</p>
+              <p>VeriRise - 28k mints</p>
+            </div>
+          </div>
+
+          <div class=\"metric-card dark\">
+            <h3>AdSense5 Mini</h3>
+            <div class=\"metric-number\">45k</div>
+            <div class=\"metric-desc\">views this week</div>
+          </div>
+
+          <div class=\"metric-card\">
+            <h3>Success Rate</h3>
+            <div class=\"metric-number\">99.98%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- TOAST NOTIFICATION CONTAINER -->
+<div id="toast-container" class="toast-container"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
