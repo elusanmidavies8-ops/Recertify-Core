@@ -287,7 +287,7 @@ function login() {
     }
 
     if (localStorage.getItem("plan")) {
-        localStorage.setItem("plan", basic);
+        localStorage.setItem("plan", "basic");
     }
     localStorage.setItem("user", email);
     showSuccess("Login successful! Welcome to Recertify Core!");
