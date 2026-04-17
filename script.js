@@ -232,33 +232,86 @@ function addDownloadButton(certificate) {
 /* ======================
    DOWNLOAD CERT
 ====================== */
+
 function downloadCertificate(cert) {
     const canvas = document.createElement("canvas");
     canvas.width = 800;
     canvas.height = 600;
     const ctx = canvas.getContext("2d");
 
+    // Background
     ctx.fillStyle = "#f8f9ff";
     ctx.fillRect(0, 0, 800, 600);
 
+    // Border
+    ctx.strokeStyle = "#7c3aed";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(20, 20, 760, 560);
+
+    // Main Title
+    ctx.fillStyle = "#7c3aed";
+    ctx.font = "bold 36px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("RECERTIFY CORE", 400, 80);
+
+    ctx.fillStyle = "#666";
+    ctx.font = "24px Arial";
+    ctx.fillText("IMMUTABLE CREDENTIAL", 400, 120);
+
+    // Certificate Title
+    ctx.fillStyle = "#333";
+    ctx.font = "bold 32px Arial";
+    ctx.fillText("Certificate of Achievement", 400, 180);
+
+    // Certificate ID
+    ctx.fillStyle = "#7c3aed";
+    ctx.font = "18px Arial";
+    ctx.fillText(`Certificate ID: #${cert.id}`, 400, 230);
+
+    // Label
+    ctx.fillStyle = "#666";
+    ctx.font = "20px Arial";
+    ctx.fillText("PRESENTED TO", 400, 280);
+
+    // Name
     ctx.fillStyle = "#333";
     ctx.font = "bold 28px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText("CERTIFICATE", 400, 200);
+    ctx.fillText(cert.name, 400, 320);
 
-    ctx.font = "20px Arial";
-    ctx.fillText(cert.name, 400, 300);
-    ctx.fillText(cert.course, 400, 350);
+    // Course text
+    ctx.fillStyle = "#666";
+    ctx.font = "18px Arial";
+    ctx.fillText("For successfully completing the rigorous requirements of", 400, 370);
+    ctx.fillText(cert.course, 400, 400);
 
-    canvas.toBlob(blob => {
+    // Date
+    ctx.fillStyle = "#666";
+    ctx.font = "16px Arial";
+    const date = cert.date ? new Date(cert.date).toLocaleDateString() : "N/A";
+ctx.fillText(`Minted: ${date}`, 400, 450);
+    // Footer
+    ctx.fillStyle = "#999";
+    ctx.font = "14px Arial";
+    ctx.fillText(
+        "SMART CONTRACT: 0x8127cf... | TOKEN STANDARD: ERC-721 Immutable",
+        400,
+        520
+    );
+
+    // Download
+    canvas.toBlob(function (blob) {
         const url = URL.createObjectURL(blob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = `certificate_${cert.id}.png`;
+        a.download = `Certificate_${cert.name.replace(/\s+/g, "_")}_${cert.id}.png`;
+        document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
         URL.revokeObjectURL(url);
+
+        alert("✅ Certificate downloaded successfully!");
     });
-}
+           }
 
 /* ======================
    BATCH MINTING
