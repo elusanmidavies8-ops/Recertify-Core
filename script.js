@@ -7,9 +7,8 @@ function showSuccess(msg) {
 }
 
 function showInfo(msg) {
-    console.log("ℹ️ " + msg);
+    alert("ℹ️ " + msg);
 }
-
 function selectPlan(plan) {
     localStorage.setItem("plan", plan);
     window.location.href = "login.html";
@@ -277,7 +276,9 @@ function batchMint() {
     reader.readAsText(file);
 }
 
-function login() {
+function login(event) {
+    if (event) event.preventDefault(); // ⛔ stop reload
+
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
@@ -289,11 +290,13 @@ function login() {
     if (localStorage.getItem("plan")) {
         localStorage.setItem("plan", "basic");
     }
+
     localStorage.setItem("user", email);
     showSuccess("Login successful! Welcome to Recertify Core!");
+
     setTimeout(() => {
         window.location.href = "dashboard.html";
-}, 1000);
+    }, 1000);
 }
 
 function upgrade() {
