@@ -1,4 +1,4 @@
-alert("JS LOADED");
+
 /* ======================
    NOTIFICATIONS
 ====================== */
@@ -53,7 +53,7 @@ function handleLogin(event) {
     showSuccess("Login successful! Welcome to Recertify Core!");
 
     setTimeout(() => {
-        window.location.href = "dashboard.html";
+        window.location.href = "Dashboard.html";
     }, 1000);
 }
 
@@ -88,7 +88,7 @@ function handleSignup(event) {
     showInfo("Redirecting...");
 
     setTimeout(() => {
-        window.location.href = "dashboard.html";
+        window.location.href = "Dashboard.html";
     }, 1200);
 }
 
