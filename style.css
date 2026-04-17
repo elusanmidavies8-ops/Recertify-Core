@@ -1278,10 +1278,6 @@ body {
   .activity-section.full-activity {
     min-height: 300px;
   }
-}
-  .pricing-cards {
-    grid-template-columns: 1fr;
-  }
 
   .features-grid {
     grid-template-columns: 1fr;
@@ -2123,7 +2119,8 @@ body {
          t r a n s f o r m :   n o n e   ! i m p o r t a n t ; 
          b o x - s h a d o w :   n o n e   ! i m p o r t a n t ; 
      } 
- }  
+ } 
+ 
  / *   M I N T   S U C C E S S   A N I M A T I O N   * / 
  @ k e y f r a m e s   m i n t S u c c e s s   { 
      0 %   { 
@@ -2138,7 +2135,8 @@ body {
          t r a n s f o r m :   s c a l e ( 1 ) ; 
          b o x - s h a d o w :   0   8 p x   3 2 p x   r g b a ( 0 ,   0 ,   0 ,   0 . 1 ) ; 
      } 
- }  
+ } 
+ 
  / *   M I N T   S U C C E S S   A N I M A T I O N   * / 
  @ k e y f r a m e s   m i n t S u c c e s s   { 
      0 %   { 
@@ -2153,5 +2151,166 @@ body {
          t r a n s f o r m :   s c a l e ( 1 ) ; 
          b o x - s h a d o w :   0   8 p x   3 2 p x   r g b a ( 0 ,   0 ,   0 ,   0 . 1 ) ; 
      } 
- }  
+ }
+/* ======================
+   GLOBAL FIXES
+====================== */
+.hero,
+.pricing-section,
+.features-section,
+.protocol-section {
+  padding: 60px 20px;
+}
+
+/* ======================
+   HEADER FIX
+====================== */
+@media (max-width: 768px) {
+  .landing-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+    gap: 10px;
+  }
+
+  .nav-menu {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .header-right {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+/* ======================
+   HERO FIX
+====================== */
+@media (max-width: 768px) {
+  .hero {
+    padding: 40px 20px;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .hero-buttons button {
+    width: 100%;
+  }
+}
+
+/* ======================
+   GRID FIXES
+====================== */
+@media (max-width: 768px) {
+  .pricing-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .mint-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .batch-content {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bottom-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ======================
+   CARD SPACING FIX
+====================== */
+@media (max-width: 768px) {
+  .pricing-card {
+    padding: 25px;
+  }
+
+  .feature-card {
+    padding: 25px;
+  }
+}
+
+/* ======================
+   FOOTER FIX
+====================== */
+@media (max-width: 768px) {
+  .landing-footer {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    text-align: center;
+    padding: 40px 20px;
+  }
+}
+
+/* ======================
+   LOGIN PAGE FIX
+====================== */
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .login-left h1 {
+    font-size: 2rem;
+  }
+
+  .wallets {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .login-right {
+    padding: 25px;
+  }
+}
+
+/* ======================
+   TABLET FIX (BETTER UX)
+====================== */
+@media (max-width: 1024px) {
+  .landing-header {
+    padding: 15px 30px;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .pricing-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+} 
+ 
  
